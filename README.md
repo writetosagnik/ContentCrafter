@@ -1,73 +1,125 @@
-# Welcome to your Lovable project
+# ContentCrafter - AI-Powered Social Media Content Creation
 
-## Project info
+## Project Overview
 
-**URL**: https://lovable.dev/projects/f4e98243-1fad-4a84-80fa-574600dfd64b
+ContentCrafter is a modern web application that helps users create engaging social media content using AI technology. Built with React, TypeScript, and powered by Google's Gemini AI, it provides intelligent content suggestions and creation tools.
 
-## How can I edit this code?
+## Features
 
-There are several ways of editing your application.
+- 🤖 **AI-Powered Content Generation**: Integrated with Google AI Studio (Gemini) for intelligent content creation
+- 📱 **Multi-Platform Support**: Create content for Instagram, Twitter, LinkedIn, Facebook, and more
+- 🎨 **Modern UI**: Built with shadcn-ui components and Tailwind CSS for a beautiful user experience
+- 💬 **Interactive Chatbot**: Chat with AI to get personalized content suggestions
+- 🎯 **Content Focused**: Specialized prompts and responses tailored for social media marketing
 
-**Use Lovable**
+## How to Setup and Run
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/f4e98243-1fad-4a84-80fa-574600dfd64b) and start prompting.
+### Prerequisites
 
-Changes made via Lovable will be committed automatically to this repo.
+- Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+- Google AI Studio API key - [Get it here](https://aistudio.google.com/)
 
-**Use your preferred IDE**
-
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
-
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
-
-Follow these steps:
+### Installation Steps
 
 ```sh
-# Step 1: Clone the repository using the project's Git URL.
+# Step 1: Clone the repository
 git clone <YOUR_GIT_URL>
 
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
+# Step 2: Navigate to the project directory
+cd ContentCrafter
 
-# Step 3: Install the necessary dependencies.
-npm i
+# Step 3: Install dependencies
+pnpm install
+# or
+npm install
 
-# Step 4: Start the development server with auto-reloading and an instant preview.
+# Step 4: Setup environment variables
+# Create .env.local file and add your Google AI API key
+echo "VITE_GOOGLE_AI_API_KEY=your_api_key_here" > .env.local
+
+# Step 5: Start the development server
+pnpm dev
+# or
 npm run dev
 ```
 
-**Edit a file directly in GitHub**
+### Environment Configuration
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+Create a `.env.local` file in the project root:
+```bash
+VITE_GOOGLE_AI_API_KEY=your_google_ai_studio_api_key_here
+```
 
-**Use GitHub Codespaces**
+## Technologies Used
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+This project is built with modern web technologies:
 
-## What technologies are used for this project?
+- **Frontend Framework**: React 18 with TypeScript
+- **Build Tool**: Vite for fast development and building
+- **Styling**: Tailwind CSS with shadcn-ui components
+- **AI Integration**: Google Generative AI (Gemini)
+- **Routing**: React Router for navigation
+- **State Management**: React hooks and context
 
-This project is built with:
+## Project Structure
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
+```
+src/
+├── components/     # Reusable UI components
+├── pages/         # Main application pages
+├── lib/           # Utility functions and services
+├── hooks/         # Custom React hooks
+├── contexts/      # React context providers
+└── assets/        # Static assets
+```
 
-## How can I deploy this project?
+## Development
 
-Simply open [Lovable](https://lovable.dev/projects/f4e98243-1fad-4a84-80fa-574600dfd64b) and click on Share -> Publish.
+### Available Scripts
 
-## Can I connect a custom domain to my Lovable project?
+- `pnpm dev` - Start development server
+- `pnpm build` - Build for production
+- `pnpm lint` - Run ESLint
+- `pnpm preview` - Preview production build
 
-Yes, you can!
+### Adding New Features
 
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
+1. Create components in the `src/components` directory
+2. Add new pages in `src/pages`
+3. Extend the AI service in `src/lib/googleAI.ts`
+4. Update routing in the main App component
 
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/tips-tricks/custom-domain#step-by-step-guide)
+## Deployment
+
+### Option 1: Build and Deploy Manually
+```sh
+pnpm build
+# Deploy the 'dist' folder to your hosting provider
+```
+
+### Option 2: Deploy to Vercel
+1. Connect your GitHub repository to Vercel
+2. Add environment variables in Vercel dashboard
+3. Deploy automatically on each push
+
+### Option 3: Deploy to Netlify
+1. Connect your repository to Netlify
+2. Set build command: `pnpm build`
+3. Set publish directory: `dist`
+4. Add environment variables
+
+## Environment Variables
+
+- `VITE_GOOGLE_AI_API_KEY` - Your Google AI Studio API key (required for AI features)
+
+## Contributing
+
+1. Fork the repository
+2. Create a feature branch
+3. Make your changes
+4. Test thoroughly
+5. Submit a pull request
+
+## License
+
+This project is open source and available under the [MIT License](LICENSE).
