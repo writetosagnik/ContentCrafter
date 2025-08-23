@@ -8,6 +8,11 @@
 4. Create a new API key or use an existing one
 5. Copy the API key
 
+## Step 2: Create a .env.local file in your project root
+
+1. Go to your project root
+2. Create a `.env.local` file
+
 ## Step 2: Configure the API Key
 
 1. Open the `.env.local` file in your project root
