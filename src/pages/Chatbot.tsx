@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import { Send, Bot, User, AlertCircle } from 'lucide-react';
+import React, { useState, useEffect } from 'react';
+import { Send, Bot, User, AlertCircle, RefreshCw } from 'lucide-react';
 import { googleAIService } from '@/lib/googleAI';
 
 interface Message {
@@ -22,6 +22,52 @@ const Chatbot = () => {
   ]);
   const [inputText, setInputText] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const [suggestions, setSuggestions] = useState<string[]>([]);
+  const [isRefreshingSuggestions, setIsRefreshingSuggestions] = useState(false);
+  const [suggestionsLoaded, setSuggestionsLoaded] = useState(false);
+
+  // Load suggestions when component mounts
+  useEffect(() => {
+    if (googleAIService.isAvailable() && !suggestionsLoaded) {
+      loadSuggestions();
+    } else if (!googleAIService.isAvailable()) {
+      // Set default suggestions if API is not available
+      setSuggestions([
+        "Create an Instagram post about productivity tips",
+        "Write a Twitter thread about social media trends",
+        "Generate Facebook content for a fitness brand",
+        "Create LinkedIn post about professional growth"
+      ]);
+      setSuggestionsLoaded(true);
+    }
+  }, [suggestionsLoaded]);
+
+  const loadSuggestions = async () => {
+    if (!googleAIService.isAvailable()) return;
+    
+    setIsRefreshingSuggestions(true);
+    try {
+      const newSuggestions = await googleAIService.generateSuggestions();
+      setSuggestions(newSuggestions);
+      setSuggestionsLoaded(true);
+    } catch (error) {
+      console.error('Failed to load suggestions:', error);
+      // Set fallback suggestions if loading fails
+      setSuggestions([
+        "Create an Instagram post about productivity tips",
+        "Write a Twitter thread about social media trends",
+        "Generate Facebook content for a fitness brand",
+        "Create LinkedIn post about professional growth"
+      ]);
+      setSuggestionsLoaded(true);
+    } finally {
+      setIsRefreshingSuggestions(false);
+    }
+  };
+
+  const refreshSuggestions = async () => {
+    await loadSuggestions();
+  };
 
   const handleSendMessage = async () => {
     if (!inputText.trim() || isLoading) return;
@@ -181,23 +227,54 @@ const Chatbot = () => {
 
           {/* Example Prompts */}
           <div className="mt-8 animate-fade-in">
-            <h3 className="text-lg font-semibold text-foreground mb-4">Try these example prompts:</h3>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-              {[
-                "Create an Instagram post about productivity tips",
-                "Write a Twitter thread about social media trends",
-                "Generate Facebook content for a fitness brand",
-                "Create LinkedIn post about professional growth"
-              ].map((prompt, index) => (
+            <div className="flex items-center justify-between mb-4">
+              <h3 className="text-lg font-semibold text-foreground">
+                {googleAIService.isAvailable() ? 'AI-Generated Suggestions:' : 'Try these example prompts:'}
+              </h3>
+              {googleAIService.isAvailable() && (
                 <button
-                  key={index}
-                  onClick={() => setInputText(prompt)}
-                  className="card-feature text-left p-4 hover:bg-primary-lighter/10 transition-colors duration-300"
+                  onClick={refreshSuggestions}
+                  disabled={isRefreshingSuggestions}
+                  className="flex items-center space-x-2 px-3 py-1.5 text-sm bg-secondary hover:bg-secondary/80 rounded-lg transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
+                  title="Refresh suggestions"
                 >
-                  <p className="text-sm text-muted-foreground">{prompt}</p>
+                  <RefreshCw 
+                    className={`h-4 w-4 ${isRefreshingSuggestions ? 'animate-spin' : ''}`} 
+                  />
+                  <span className="hidden sm:inline">
+                    {isRefreshingSuggestions ? 'Refreshing...' : 'Refresh'}
+                  </span>
                 </button>
-              ))}
+              )}
             </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+              {(!suggestionsLoaded && googleAIService.isAvailable()) || isRefreshingSuggestions ? (
+                // Loading skeleton
+                Array.from({ length: 4 }).map((_, index) => (
+                  <div
+                    key={`skeleton-${index}`}
+                    className="card-feature p-4 animate-pulse"
+                  >
+                    <div className="h-4 bg-muted rounded w-3/4"></div>
+                  </div>
+                ))
+              ) : (
+                suggestions.map((prompt, index) => (
+                  <button
+                    key={`${prompt}-${index}`}
+                    onClick={() => setInputText(prompt)}
+                    className="card-feature text-left p-4 hover:bg-primary-lighter/10 transition-colors duration-300"
+                  >
+                    <p className="text-sm text-muted-foreground">{prompt}</p>
+                  </button>
+                ))
+              )}
+            </div>
+            {googleAIService.isAvailable() && (
+              <p className="text-xs text-muted-foreground mt-3 text-center">
+                Suggestions are generated fresh using AI every time you visit this page
+              </p>
+            )}
           </div>
         </div>
       </div>

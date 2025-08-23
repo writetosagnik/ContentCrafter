@@ -48,6 +48,59 @@ If the user asks for specific platform content, tailor your response accordingly
     }
   }
 
+  async generateSuggestions(): Promise<string[]> {
+    if (!this.model) {
+      return [
+        "Create an Instagram post about productivity tips",
+        "Write a Twitter thread about social media trends", 
+        "Generate Facebook content for a fitness brand",
+        "Create LinkedIn post about professional growth"
+      ];
+    }
+
+    try {
+      const suggestionsPrompt = `You are ContentCrafter AI. Generate exactly 4 diverse, creative, and actionable social media content prompts that users might want help with. 
+
+Requirements:
+- Each prompt should be different and cover various social media platforms
+- Make them specific and actionable
+- Focus on different industries/topics (business, lifestyle, education, entertainment, etc.)
+- Keep each prompt under 60 characters
+- Return only the prompts, one per line, no numbering or bullets
+
+Example format:
+Create Instagram story ideas for a restaurant
+Write LinkedIn tips for remote workers
+Generate TikTok content for a beauty brand  
+Draft Twitter posts about sustainable living`;
+
+      const result = await this.model.generateContent(suggestionsPrompt);
+      const response = await result.response;
+      const suggestions = response.text().split('\n').filter(line => line.trim().length > 0).slice(0, 4);
+      
+      // Fallback to default suggestions if AI doesn't return 4 suggestions
+      if (suggestions.length < 4) {
+        return [
+          "Create an Instagram post about productivity tips",
+          "Write a Twitter thread about social media trends",
+          "Generate Facebook content for a fitness brand", 
+          "Create LinkedIn post about professional growth"
+        ];
+      }
+      
+      return suggestions;
+    } catch (error) {
+      console.error('Error generating suggestions:', error);
+      // Return fallback suggestions
+      return [
+        "Create an Instagram post about productivity tips",
+        "Write a Twitter thread about social media trends",
+        "Generate Facebook content for a fitness brand",
+        "Create LinkedIn post about professional growth"
+      ];
+    }
+  }
+
   isAvailable(): boolean {
     return this.genAI !== null && this.model !== null;
   }
