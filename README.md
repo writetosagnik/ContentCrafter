@@ -88,25 +88,7 @@ src/
 2. Add new pages in `src/pages`
 3. Extend the AI service in `src/lib/googleAI.ts`
 4. Update routing in the main App component
-
-## Deployment
-
-### Option 1: Build and Deploy Manually
-```sh
-pnpm build
-# Deploy the 'dist' folder to your hosting provider
-```
-
-### Option 2: Deploy to Vercel
-1. Connect your GitHub repository to Vercel
-2. Add environment variables in Vercel dashboard
-3. Deploy automatically on each push
-
-### Option 3: Deploy to Netlify
-1. Connect your repository to Netlify
-2. Set build command: `pnpm build`
-3. Set publish directory: `dist`
-4. Add environment variables
+S
 
 ## Environment Variables
 
