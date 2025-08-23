@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # ContentCrafter - AI-Powered Social Media Content Creation
 
 ## Project Overview
@@ -123,3 +124,6 @@ pnpm build
 ## License
 
 This project is open source and available under the [MIT License](LICENSE).
+=======
+
+>>>>>>> 3ccf981f1439a3622c15bcf8bb902d4ad11e0f1e

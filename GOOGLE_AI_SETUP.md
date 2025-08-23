@@ -8,7 +8,12 @@
 4. Create a new API key or use an existing one
 5. Copy the API key
 
-## Step 2: Configure the API Key
+## Step 2: Create a .env.local file in your project root
+
+1. Go to your project root
+2. Create a `.env.local` file
+
+## Step 3: Configure the API Key
 
 1. Open the `.env.local` file in your project root
 2. Replace `your_google_ai_studio_api_key_here` with your actual API key:
@@ -17,7 +22,7 @@
    ```
 3. Save the file
 
-## Step 3: Restart the Development Server
+## Step 4: Restart the Development Server
 
 After adding your API key, restart your development server:
 ```bash
