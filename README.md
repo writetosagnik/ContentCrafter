@@ -1,5 +1,5 @@
 # ContentCrafter - AI-Powered Social Media Content Creation
-
+### 
 ## Project Overview
 
 ContentCrafter is a modern web application that helps users create engaging social media content using AI technology. Built with React, TypeScript, and powered by Google's Gemini AI, it provides intelligent content suggestions and creation tools.
